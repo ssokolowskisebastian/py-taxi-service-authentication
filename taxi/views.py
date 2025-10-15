@@ -21,7 +21,7 @@ def index(request):
         "num_drivers": num_drivers,
         "num_cars": num_cars,
         "num_manufacturers": num_manufacturers,
-        "num_visits" : num_visits
+        "num_visits": num_visits,
     }
 
     return render(request, "taxi/index.html", context=context)
@@ -47,6 +47,15 @@ class CarDetailView(LoginRequiredMixin, generic.DetailView):
 class DriverListView(LoginRequiredMixin, generic.ListView):
     model = Driver
     paginate_by = 5
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Add the current user's driver ID to context (if exists)
+        if hasattr(self.request.user, "driver"):
+            context["current_driver_id"] = self.request.user.driver.id
+        else:
+            context["current_driver_id"] = None
+        return context
 
 
 class DriverDetailView(LoginRequiredMixin, generic.DetailView):
