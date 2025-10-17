@@ -50,7 +50,7 @@ class DriverListView(LoginRequiredMixin, generic.ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['current_driver_id'] = getattr(self.request.user, 'id', None)
+        context["current_driver_id"] = getattr(self.request.user, "id", None)
         return context
 
 
